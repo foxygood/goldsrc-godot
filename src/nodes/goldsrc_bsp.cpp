@@ -1263,7 +1263,11 @@ void GoldSrcBSP::build_mesh() {
 			Node3D *group_parent = (m > 0) ? (Node3D *)body_node : model_node;
 			if (m == 0 && spatial_groups.size() > 1) {
 				group_parent = memnew(Node3D);
-				group_parent->set_name(String(sg.label.c_str()));
+				String label = String(sg.label.c_str());
+				if (label.is_empty()) {
+					label = String("group_") + String::num_int64(sg_idx);
+				}
+				group_parent->set_name(label);
 				model_node->add_child(group_parent);
 				if (!sg.pvs_leaves.empty()) {
 					PackedInt32Array leaves_arr;

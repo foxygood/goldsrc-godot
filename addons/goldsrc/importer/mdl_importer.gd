@@ -73,7 +73,10 @@ func _import(source_file: String, save_path: String, options: Dictionary,
 
 	# Reparent children to a plain Node3D so the saved scene is GDExtension-independent
 	var root := Node3D.new()
-	root.name = source_file.get_file().get_basename()
+	var root_name := source_file.get_file().get_basename()
+	if root_name.is_empty():
+		root_name = "mdl_root"
+	root.name = root_name
 	# GoldSrc models face -Z after axis swizzle; rotate to match GoldSrc game orientation
 	root.rotation_degrees.y = 90.0
 

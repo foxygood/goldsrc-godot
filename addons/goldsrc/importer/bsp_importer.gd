@@ -108,7 +108,10 @@ func _import(source_file: String, save_path: String, options: Dictionary,
 
 	# Reparent children to a plain Node3D so the saved scene is GDExtension-independent
 	var root := Node3D.new()
-	root.name = source_file.get_file().get_basename()
+	var root_name := source_file.get_file().get_basename()
+	if root_name.is_empty():
+		root_name = "bsp_root"
+	root.name = root_name
 
 	var children := bsp.get_children()
 	for child in children:
@@ -177,7 +180,10 @@ func _instantiate_entity_models(root: Node3D, model_dir: String) -> void:
 			instance = mi
 			push_warning("BSP Importer: model not found, using placeholder for '%s'" % res_path)
 
-		instance.name = model_path.get_file().get_basename()
+		var node_name := model_path.get_file().get_basename()
+		if node_name.is_empty():
+			node_name = "unnamed_entity_model"
+		instance.name = node_name
 		child.add_child(instance)
 
 

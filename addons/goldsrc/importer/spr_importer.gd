@@ -82,6 +82,11 @@ func _import(source_file: String, save_path: String, options: Dictionary,
 		push_error("SPR Importer: build_scene() failed for '%s'" % source_file)
 		return ERR_CANT_CREATE
 
+	var sprite_name := source_file.get_file().get_basename()
+	if sprite_name.is_empty():
+		sprite_name = "sprite_root"
+	sprite.name = sprite_name
+
 	# Bake import options into the SpriteAnimationPlayer child
 	var sap = sprite.get_node_or_null(^"SpriteAnimationPlayer")
 	if sap:

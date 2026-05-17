@@ -1,11 +1,11 @@
 # Build
 build/
-build-debug/
+build-*/
 cmake-build-*/
+.cache/
 
 # Compiled binaries
 addons/goldsrc/bin/
-build-release/
 src/test_hull_csg
 
 # Godot

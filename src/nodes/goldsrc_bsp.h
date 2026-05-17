@@ -7,6 +7,7 @@
 #include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/vector3.hpp>
+#include <godot_cpp/variant/aabb.hpp>
 
 #include "../parsers/bsp_parser.h"
 #include "goldsrc_wad.h"
@@ -43,6 +44,12 @@ public:
 
 	// Debug: check what the BSP thinks a point is (returns contents: -1=empty, -2=solid, -3=water)
 	int point_contents(godot::Vector3 godot_pos) const;
+
+	// Visibility queries for the unified visibility system
+	int point_to_leaf(godot::Vector3 godot_pos) const;
+	int get_leaf_count() const;
+	godot::PackedInt32Array get_leaf_pvs(int leaf_index) const;
+	godot::PackedInt32Array get_leaves_in_aabb(godot::AABB godot_aabb) const;
 
 	// Look up a texture by name from BSP embedded textures or loaded WADs
 	godot::Ref<godot::ImageTexture> get_texture(const godot::String &name) const;
@@ -81,6 +88,9 @@ private:
 	int get_occluder_max_count() const;
 	void set_occluder_pvs_min_gain(int min_gain);
 	int get_occluder_pvs_min_gain() const;
+
+	void _collect_leaves_in_aabb(int node_idx, const float gs_min[3], const float gs_max[3],
+		godot::PackedInt32Array &result) const;
 
 	// Per-face lightmap placement info (for rebaking)
 	struct FaceLightmapInfo {

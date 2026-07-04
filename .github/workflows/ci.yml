@@ -30,6 +30,12 @@ jobs:
       - name: Build
         run: cmake --build build --config Debug
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: goldsrc-bin-${{ matrix.os }}
+          path: addons/goldsrc/bin/
+
   test:
     name: Test
     runs-on: ubuntu-latest
